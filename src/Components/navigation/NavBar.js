@@ -35,7 +35,7 @@ const styles = (theme) => ({
     fontWeight: 400,
   },
   noDecoration: {
-    textDecoration: "none !important",
+    textDecoration: "none !important ",
   },
 });
 
@@ -67,7 +67,7 @@ function NavBar(props) {
     },
     {
       link: "/blog",
-      name: "Về chúng tôi",
+      name: "Về chúng tôi. ",
       icon: <BookIcon className="text-white" />,
     },
     {

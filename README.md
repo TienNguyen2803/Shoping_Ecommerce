@@ -19,7 +19,7 @@
 1. Clone the repository
 
    ```
-   git clone https://github.com/TienNM/react-saas-template
+   git clone https://github.com/TienNguyen2803/Shoping_Ecommerce.git
    ```
 
 2. Install dependencies, this can take a minute
