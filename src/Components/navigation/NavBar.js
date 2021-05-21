@@ -15,7 +15,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import HowToRegIcon from "@material-ui/icons/HowToReg";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import BookIcon from "@material-ui/icons/Book";
-import NavigationDrawer from "../../../shared/components/NavigationDrawer";
+import NavigationDrawer from "../../shared/components/NavigationDrawer";
 
 const styles = (theme) => ({
   appBar: {
@@ -52,21 +52,31 @@ function NavBar(props) {
   const menuItems = [
     {
       link: "/",
-      name: "Home",
+      name: "Trang chủ",
       icon: <HomeIcon className="text-white" />,
     },
     {
       link: "/blog",
-      name: "Blog",
+      name: "Chương trình",
       icon: <BookIcon className="text-white" />,
     },
     {
-      name: "Register",
+      link: "/blog",
+      name: "Đã trao giải",
+      icon: <BookIcon className="text-white" />,
+    },
+    {
+      link: "/blog",
+      name: "Về chúng tôi",
+      icon: <BookIcon className="text-white" />,
+    },
+    {
+      name: "Đăng ký",
       onClick: openRegisterDialog,
       icon: <HowToRegIcon className="text-white" />,
     },
     {
-      name: "Login",
+      name: "Đăng nhập",
       onClick: openLoginDialog,
       icon: <LockOpenIcon className="text-white" />,
     },
@@ -82,7 +92,7 @@ function NavBar(props) {
               display="inline"
               color="primary"
             >
-              Wa
+              SK
             </Typography>
             <Typography
               variant="h4"
@@ -90,7 +100,7 @@ function NavBar(props) {
               display="inline"
               color="secondary"
             >
-              Ver
+              G
             </Typography>
           </div>
           <div>
