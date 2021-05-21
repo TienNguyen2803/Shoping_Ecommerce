@@ -85,11 +85,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TienNguyen2803/react-saas-template.git"
+    "url": "https://github.com/TienNguyen2803/Shoping_Ecommerce.git"
   },
   "author": "TienNM",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TienNM"
+    "url": "https://github.com/TienNguyen2803/Shoping_Ecommerce"
   }
 }
