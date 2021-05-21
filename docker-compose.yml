@@ -1,0 +1,20 @@
+#cmd: sudo docker build -t viktik-fe-user-docker/reactjs:v1 .
+#cmd: sudo docker-compose down && sudo docker-compose up -d
+version: "3.3"
+
+services:
+  app:
+    image: viktik-fe-user-docker/reactjs:v1
+    container_name: viktik-fe-user
+    environment:
+      REACT_APP_VIKTIK_API_ID: "${REACT_APP_VIKTIK_API_ID}"
+      REACT_APP_VIKTIK_API_SECRET: "${REACT_APP_VIKTIK_API_SECRET}"
+      REACT_APP_VIKTIK_API_URL: "${REACT_APP_VIKTIK_API_URL}"
+    volumes: #sync
+      - type: bind
+        # Logs
+        source: $HOME/logs/nginx/user
+        target: /var/log/nginx/
+    ports:
+      - "80:80"
+    restart: unless-stopped
