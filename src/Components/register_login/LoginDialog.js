@@ -10,10 +10,10 @@ import {
   FormControlLabel,
   withStyles,
 } from "@material-ui/core";
-import FormDialog from "../../../shared/components/FormDialog";
-import HighlightedInformation from "../../../shared/components/HighlightedInformation";
-import ButtonCircularProgress from "../../../shared/components/ButtonCircularProgress";
-import VisibilityPasswordTextField from "../../../shared/components/VisibilityPasswordTextField";
+import FormDialog from "../../shared/components/FormDialog";
+import HighlightedInformation from "../../shared/components/HighlightedInformation";
+import ButtonCircularProgress from "../../shared/components/ButtonCircularProgress";
+import VisibilityPasswordTextField from "../../shared/components/VisibilityPasswordTextField";
 
 const styles = (theme) => ({
   forgotPassword: {

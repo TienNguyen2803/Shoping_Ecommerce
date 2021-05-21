@@ -7,7 +7,7 @@ import Pace from "./shared/components/Pace";
 import ConfigStore from "./Config/Store";
 import { Provider } from "react-redux";
 
-const LoggedOutComponent = lazy(() => import("./Components/App/Main"));
+const LoggedOutComponent = lazy(() => import("./Components/Main"));
 
 const store = ConfigStore();
 
