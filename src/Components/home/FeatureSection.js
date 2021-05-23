@@ -1,142 +1,131 @@
-import React from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Grid, Typography, isWidthUp, withWidth } from "@material-ui/core";
-import CodeIcon from "@material-ui/icons/Code";
-import BuildIcon from "@material-ui/icons/Build";
-import ComputerIcon from "@material-ui/icons/Computer";
-import BarChartIcon from "@material-ui/icons/BarChart";
-import HeadsetMicIcon from "@material-ui/icons/HeadsetMic";
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import CloudIcon from "@material-ui/icons/Cloud";
-import MeassageIcon from "@material-ui/icons/Message";
-import CancelIcon from "@material-ui/icons/Cancel";
+import {
+  Grid,
+  Typography,
+  isWidthUp,
+  withWidth,
+  Button,
+  withStyles,
+  Box,
+} from "@material-ui/core";
+import classNames from "classnames";
 import calculateSpacing from "./calculateSpacing";
-import FeatureCard from "./FeatureCard";
-
-const iconSize = 30;
-
-const features = [
-  {
-    color: "#00C853",
-    headline: "Feature 1",
-    text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    icon: <BuildIcon style={{ fontSize: iconSize }} />,
-    mdDelay: "0",
-    smDelay: "0"
+import DeleteIcon from "@material-ui/icons/Delete";
+import SelfAligningImage from "../../shared/components/SelfAligningImage";
+import post_list from "../dummy_data/persion";
+import WaveBorder from "../../shared/components/WaveBorder";
+import BoxCountDown from "./BoxCountDown";
+const styles = (theme) => ({
+  waveBorder: {
+    paddingTop: theme.spacing(4),
   },
-  {
-    color: "#6200EA",
-    headline: "Feature 2",
-    text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    icon: <CalendarTodayIcon style={{ fontSize: iconSize }} />,
-    mdDelay: "200",
-    smDelay: "200"
+  wrapper: {
+    height: 200,
+    position: "relative",
+    backgroundColor: theme.palette.secondary.main,
+    paddingBottom: theme.spacing(2),
   },
-  {
-    color: "#0091EA",
-    headline: "Feature 3",
-    text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    icon: <MeassageIcon style={{ fontSize: iconSize }} />,
-    mdDelay: "400",
-    smDelay: "0"
-  },
-  {
-    color: "#d50000",
-    headline: "Feature 4",
-    text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    icon: <ComputerIcon style={{ fontSize: iconSize }} />,
-    mdDelay: "0",
-    smDelay: "200"
-  },
-  {
-    color: "#DD2C00",
-    headline: "Feature 5",
-    text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    icon: <BarChartIcon style={{ fontSize: iconSize }} />,
-    mdDelay: "200",
-    smDelay: "0"
-  },
-  {
-    color: "#64DD17",
-    headline: "Feature 6",
-    text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    icon: <HeadsetMicIcon style={{ fontSize: iconSize }} />,
-    mdDelay: "400",
-    smDelay: "200"
-  },
-  {
-    color: "#304FFE",
-    headline: "Feature 7",
-    text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    icon: <CloudIcon style={{ fontSize: iconSize }} />,
-    mdDelay: "0",
-    smDelay: "0"
-  },
-  {
-    color: "#C51162",
-    headline: "Feature 8",
-    text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    icon: <CodeIcon style={{ fontSize: iconSize }} />,
-    mdDelay: "200",
-    smDelay: "200"
-  },
-  {
-    color: "#00B8D4",
-    headline: "Feature 9",
-    text:
-      "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et.",
-    icon: <CancelIcon style={{ fontSize: iconSize }} />,
-    mdDelay: "400",
-    smDelay: "0"
-  }
-];
-
+});
 function FeatureSection(props) {
-  const { width } = props;
+  const { width, theme, classes } = props;
+  const [posts, setPosts] = useState([]);
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  const fetchRandomPosts = useCallback(() => {
+    shuffle(post_list);
+    const posts = [];
+    const iterations = post_list.length;
+    const oneDaySeconds = 60 * 60 * 24;
+    let curUnix = Math.round(
+      new Date().getTime() / 1000 - iterations * oneDaySeconds
+    );
+    for (let i = 0; i < iterations; i += 1) {
+      const person = post_list[i];
+      const post = {
+        id: i,
+        src: person.src,
+        timestamp: curUnix,
+        name: person.name,
+      };
+      curUnix += oneDaySeconds;
+      posts.push(post);
+    }
+    posts.reverse();
+    setPosts(posts);
+  }, [setPosts]);
+  useEffect(() => {
+    fetchRandomPosts();
+  }, [fetchRandomPosts]);
   return (
     <div style={{ backgroundColor: "#FFFFFF" }}>
-      <div className="container-fluid lg-p-top">
-        <Typography variant="h3" align="center" className="lg-mg-bottom">
-          Features
+      <div className={classNames("container-fluid lg-p-top")}>
+        <Typography variant="h3" align="center" className="md-mg-bottom">
+          ĐỔI HÓA ĐƠN LẤY MÃ DỰ THƯỞNG
+        </Typography>
+        <Typography variant="h6" align="center" className="lg-mg-bottom">
+          Bạn mới mua 1 món hàng, hãy giữ lấy hoá đơn và thử ngay vận may với
+          các chương trình trao thưởng của doanh nghiệp dưới đây.
         </Typography>
         <div className="container-fluid">
           <Grid container spacing={calculateSpacing(width)}>
-            {features.map(element => (
+            {posts.map((element, key) => (
               <Grid
+                className="position-relative"
                 item
-                xs={6}
+                xs={12}
                 md={4}
+                sm={6}
                 data-aos="zoom-in-up"
-                data-aos-delay={
-                  isWidthUp("md", width) ? element.mdDelay : element.smDelay
-                }
-                key={element.headline}
+                data-aos-delay={isWidthUp("md", width) ? 200 : 400}
+                key={element.timestamp}
               >
-                <FeatureCard
-                  Icon={element.icon}
-                  color={element.color}
-                  headline={element.headline}
-                  text={element.text}
+                <SelfAligningImage
+                  src={element.src}
+                  title={element.name}
+                  subtitle={<BoxCountDown />}
+                  options={[
+                    {
+                      name: "Delete",
+                      onClick: () => {
+                        console.log(" onDelete(post)");
+                      },
+                      icon: <DeleteIcon />,
+                    },
+                  ]}
                 />
               </Grid>
             ))}
           </Grid>
         </div>
+        <div className="container-fluid md-mg-top pd=5" align="center">
+          <Button variant="contained" color="secondary" disableElevation>
+            Xem tất cả
+          </Button>
+        </div>
       </div>
+      <Box className={classNames("lg-mg-top", classes.wrapper)}></Box>
+
+      <WaveBorder
+        upperColor={theme.palette.secondary.main}
+        lowerColor="#FFFFFF"
+        className={classes.waveBorder}
+        animationNegativeDelay={2}
+      />
     </div>
   );
 }
 
 FeatureSection.propTypes = {
-  width: PropTypes.string.isRequired
+  classes: PropTypes.object,
+  width: PropTypes.string,
+  theme: PropTypes.object,
 };
 
-export default withWidth()(FeatureSection);
+export default withWidth()(
+  withStyles(styles, { withTheme: true })(FeatureSection)
+);

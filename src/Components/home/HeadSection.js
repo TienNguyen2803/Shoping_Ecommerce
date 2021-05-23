@@ -119,33 +119,39 @@ function HeadSection(props) {
                       justifyContent="space-between"
                       height="100%"
                     >
-                      <Box mb={4}>
+                      <Box mb={2}>
                         <Typography
                           variant={isWidthUp("lg", width) ? "h3" : "h4"}
                         >
-                          Free Template for building a SaaS app using
-                          Material-UI
+                          CHƠI LIỀN TAY
+                        </Typography>
+                        <Typography
+                          style={{ paddingTop: 20 }}
+                          variant={isWidthUp("lg", width) ? "h6" : "body1"}
+                          color="textSecondary"
+                        >
+                          TRÚNG QUÀ GHIỀN NGAY
+                        </Typography>
+                        <Typography
+                          style={{ paddingTop: 30 }}
+                          variant={isWidthUp("lg", width) ? "h6" : "body2"}
+                          color="textSecondary"
+                        >
+                          Cơ hội vàng của bạn đã đến! Tham gia ngay để có cơ hội
+                          chúng nhiều phần quà giá trị hấp dẫn chỉ với vài thao
+                          tác.
                         </Typography>
                       </Box>
                       <div>
-                        <Box mb={2}>
-                          <Typography
-                            variant={isWidthUp("lg", width) ? "h6" : "body1"}
-                            color="textSecondary"
-                          >
-                            Lorem ipsum dolor sit amet, consetetur sadipscing
-                            elitr, sed diam nonumy eirmod tempor invidunt
-                          </Typography>
-                        </Box>
                         <Button
                           variant="contained"
                           color="secondary"
                           fullWidth
                           className={classes.extraLargeButton}
                           classes={{ label: classes.extraLargeButtonLabel }}
-                          href="https://github.com/dunky11/react-saas-template"
+                          href="/"
                         >
-                          Download from GitHub
+                          THAM GIA NGAY
                         </Button>
                       </div>
                     </Box>
@@ -153,7 +159,7 @@ function HeadSection(props) {
                   <Hidden smDown>
                     <Grid item md={6}>
                       <ZoomImage
-                        src={`${process.env.PUBLIC_URL}/images/logged_out/headerImage.jpg`}
+                        src={`${process.env.PUBLIC_URL}/images/home/panel.svg`}
                         className={classes.image}
                         alt="header example"
                       />
