@@ -82,7 +82,7 @@ const infos = [
   },
   {
     icon: <MailIcon />,
-    description: "support@company.com",
+    description: "SKG@company.com",
   },
 ];
 
@@ -171,7 +171,7 @@ function Footer(props) {
                   <TextField
                     variant="outlined"
                     multiline
-                    placeholder="Get in touch with us"
+                    placeholder="Liên hệ với chúng tôi"
                     InputProps={{
                       className: classes.whiteBg,
                     }}
@@ -185,7 +185,7 @@ function Footer(props) {
                   variant="outlined"
                   type="submit"
                 >
-                  Send Message
+                  GỬI TIN NHẮN
                 </ColoredButton>
               </Box>
             </form>
@@ -222,12 +222,20 @@ function Footer(props) {
           </Hidden>
           <Grid item xs={12} md={6} lg={4}>
             <Typography variant="h6" paragraph className="text-white">
-              About the Company
+              SKG Hồ Chí Minh
             </Typography>
             <Typography style={{ color: "#8f9296" }} paragraph>
-              Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce
-              euismod convallis velit, eu auctor lacus vehicula sit amet.
+              Lot T2, Street D1, High-tech Park, Tan Phu Ward, District 9, Ho
+              Chi Minh city, Vietnam
             </Typography>
+            <Box
+              letterSpacing={3}
+              fontStyle="italic"
+              m={1}
+              style={{ color: "#8f9296" }}
+            >
+              Thành lập từ 2016
+            </Box>
             <Box display="flex">
               {socialIcons.map((socialIcon, index) => (
                 <Box key={index} mr={index !== socialIcons.length - 1 ? 1 : 0}>

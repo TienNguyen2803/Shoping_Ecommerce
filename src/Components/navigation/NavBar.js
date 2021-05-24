@@ -85,7 +85,7 @@ function NavBar(props) {
             </Grid>
             <Grid container justify="flex-end" item xs={11}>
               <Hidden mdDown>
-                <Grid container item xs={10} justify="center">
+                <Grid container item lg={9} xl={10} justify="center">
                   {menuItems.map((element, index) => {
                     if (element.link) {
                       return (
@@ -109,7 +109,7 @@ function NavBar(props) {
                   })}
                 </Grid>
 
-                <Grid container item xs={2}>
+                <Grid container item lg={3} xl={2}>
                   {menuItems.map((element, index) => {
                     if (!element.link) {
                       return (

@@ -12,7 +12,7 @@ import {
   withStyles,
 } from "@material-ui/core";
 import classNames from "classnames";
-import calculateSpacing from "./calculateSpacing";
+import calculateSpacing from "../../shared/components/calculateSpacing";
 import post_list from "../dummy_data/persion";
 import ZoomImage from "../../shared/components/ZoomImage";
 import OtpInput from "react-otp-input";

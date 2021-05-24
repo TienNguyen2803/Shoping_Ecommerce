@@ -3,17 +3,21 @@ import PropTypes from "prop-types";
 import { Typography, Box, withStyles } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 
-const styles = theme => ({
+const styles = (theme) => ({
   card: {
+    minHeight: 301,
+    position: "relative",
     paddingTop: theme.spacing(6),
     paddingBottom: theme.spacing(6),
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
     marginTop: theme.spacing(2),
     border: `3px solid ${theme.palette.primary.dark}`,
-    borderRadius: theme.shape.borderRadius * 2
+    borderRadius: theme.shape.borderRadius * 2,
   },
   cardHightlighted: {
+    minHeight: 301,
+    position: "relative",
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(4),
     paddingLeft: theme.spacing(4),
@@ -22,12 +26,15 @@ const styles = theme => ({
     borderRadius: theme.shape.borderRadius * 2,
     backgroundColor: theme.palette.primary.main,
     [theme.breakpoints.down("xs")]: {
-      marginTop: theme.spacing(2)
-    }
+      marginTop: theme.spacing(2),
+    },
+    [theme.breakpoints.down("md")]: {
+      minHeight: 356,
+    },
   },
   title: {
-    color: theme.palette.primary.main
-  }
+    color: theme.palette.primary.main,
+  },
 });
 
 function PriceCard(props) {
@@ -56,16 +63,16 @@ function PriceCard(props) {
             style={{
               color: highlighted
                 ? theme.palette.common.white
-                : theme.palette.primary.dark
+                : theme.palette.primary.dark,
             }}
           />
           <Box ml={1}>
-            <Typography
+            <Box
               className={highlighted ? "text-white" : null}
-              variant={highlighted ? "h6" : "body1"}
+              fontSize={highlighted ? "h6" : "body1"}
             >
               {feature}
-            </Typography>
+            </Box>
           </Box>
         </Box>
       ))}
@@ -78,7 +85,7 @@ PriceCard.propTypes = {
   theme: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   pricing: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
-  highlighted: PropTypes.bool
+  highlighted: PropTypes.bool,
 };
 
 export default withStyles(styles, { withTheme: true })(PriceCard);

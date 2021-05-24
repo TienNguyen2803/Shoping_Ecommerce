@@ -2,8 +2,10 @@ import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import HeadSection from "./HeadSection";
 import FeatureSection from "./FeatureSection";
-import PricingSection from "./PricingSection";
 import AwardList from "./AwardList";
+import AccountingShop from "../../shared/components/AccountingShop";
+import UserCare from "../../shared/components/UserCare";
+import ProductCarousel from "./ProductCarousel";
 
 function Home(props) {
   const { selectHome } = props;
@@ -13,9 +15,11 @@ function Home(props) {
   return (
     <Fragment>
       <HeadSection />
+      <ProductCarousel />
       <FeatureSection />
       <AwardList />
-      <PricingSection />
+      <AccountingShop />
+      <UserCare />
     </Fragment>
   );
 }

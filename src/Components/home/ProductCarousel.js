@@ -1,17 +1,18 @@
 import React, { useCallback, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
-  Grid,
   Typography,
   isWidthUp,
   withWidth,
-  Button,
   withStyles,
   Box,
+  Container,
 } from "@material-ui/core";
 import classNames from "classnames";
-import calculateSpacing from "../../shared/components/calculateSpacing";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Slider from "react-slick";
 import SelfAligningImage from "../../shared/components/SelfAligningImage";
 import post_list from "../dummy_data/persion";
 import WaveBorder from "../../shared/components/WaveBorder";
@@ -25,6 +26,59 @@ const styles = (theme) => ({
     position: "relative",
     backgroundColor: theme.palette.secondary.main,
     paddingBottom: theme.spacing(2),
+  },
+  slick: {
+    "@global": {
+      /* the slides */
+      " .slick-slide ": {
+        margin: "0px 20px",
+      },
+      ".slick-list": {
+        height: 600,
+      },
+      //buton slick next
+      ".slick-arrow slick-next": {
+        backgroundColor: "gray",
+      },
+      ".slick-next:before": {
+        fontSize: 50,
+        width: "50px !important",
+        height: "50px !important",
+      },
+      ".slick-next": {
+        fontSize: "50px !important",
+        width: "50px !important",
+        height: "50px !important",
+        right: 50,
+        top: "40%",
+      },
+      "button.slick-arrow .slick-next": {
+        width: "50px !important",
+        height: "50px !important",
+        fontSize: "50px !important",
+      },
+      //buton slick prev
+      "button.slick-arrow .slick-prev": {
+        width: "50px !important",
+        height: "50px !important",
+        fontSize: "50px !important",
+        backgroundColor: "gray",
+      },
+
+      ".slick-prev:before": {
+        fontSize: 50,
+        width: "50px !important",
+        height: "50px !important",
+      },
+      ".slick-prev": {
+        left: 10,
+        top: "40%",
+        zIndex: 99,
+        fontSize: "50px !important",
+        width: "50px !important",
+        height: "50px !important",
+      },
+    },
   },
 });
 function FeatureSection(props) {
@@ -61,25 +115,26 @@ function FeatureSection(props) {
   useEffect(() => {
     fetchRandomPosts();
   }, [fetchRandomPosts]);
+
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+  };
   return (
     <div style={{ backgroundColor: "#FFFFFF" }}>
       <div className={classNames("container-fluid lg-p-top")}>
         <Typography variant="h3" align="center" className="md-mg-bottom">
-          ĐỔI HÓA ĐƠN LẤY MÃ DỰ THƯỞNG
+          GIẢI THƯỞNG SẮP TRAO THƯỞNG
         </Typography>
-        <Typography variant="h6" align="center" className="lg-mg-bottom">
-          Bạn mới mua 1 món hàng, hãy giữ lấy hoá đơn và thử ngay vận may với
-          các chương trình trao thưởng của doanh nghiệp dưới đây.
-        </Typography>
-        <div className="container-fluid">
-          <Grid container spacing={calculateSpacing(width)}>
+        <Container maxWidth="lg">
+          <Slider {...settings} className={classes.slick}>
             {posts.map((element, key) => (
-              <Grid
+              <Box
                 className="position-relative"
-                item
-                xs={12}
-                md={4}
-                sm={6}
+                style={{ width: 448, height: 669 }}
                 data-aos="zoom-in-up"
                 data-aos-delay={isWidthUp("md", width) ? 200 : 400}
                 key={element.timestamp}
@@ -98,15 +153,10 @@ function FeatureSection(props) {
                     },
                   ]}
                 />
-              </Grid>
+              </Box>
             ))}
-          </Grid>
-        </div>
-        <div className="container-fluid md-mg-top pd=5" align="center">
-          <Button variant="contained" color="secondary" disableElevation>
-            Xem tất cả
-          </Button>
-        </div>
+          </Slider>
+        </Container>
       </div>
       <Box className={classNames("lg-mg-top", classes.wrapper)}></Box>
 
