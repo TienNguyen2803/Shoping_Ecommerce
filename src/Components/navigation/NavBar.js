@@ -13,13 +13,18 @@ import {
   Box,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
+import MessagePopperButton from "./MessagePopperButton";
+
 import HomeIcon from "@material-ui/icons/Home";
 import HowToRegIcon from "@material-ui/icons/HowToReg";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import BookIcon from "@material-ui/icons/Book";
 import NavigationDrawer from "../../shared/components/NavigationDrawer";
 import styles from "./styles";
-
+import Balance from "./Balance";
+import { isUserLogin } from "../../Helper/Auth";
+import PersonalInfo from "./PersonalInfo";
+import { isEmpty } from "lodash";
 function NavBar(props) {
   const {
     classes,
@@ -29,6 +34,7 @@ function NavBar(props) {
     handleMobileDrawerClose,
     mobileDrawerOpen,
     selectedTab,
+    messages,
   } = props;
   const menuItems = [
     {
@@ -110,22 +116,39 @@ function NavBar(props) {
                 </Grid>
 
                 <Grid container item lg={3} xl={2}>
-                  {menuItems.map((element, index) => {
-                    if (!element.link) {
-                      return (
-                        <Button
-                          color="secondary"
-                          size="large"
-                          onClick={element.onClick}
-                          classes={{ text: classes.menuButtonText }}
-                          key={index}
-                        >
-                          {element.name}
-                        </Button>
-                      );
-                    }
-                    return <Box key={index}></Box>;
-                  })}
+                  {!isEmpty(isUserLogin()) ? (
+                    <Grid container item xs={12} direction="row">
+                      <Box
+                        display="flex"
+                        justifyContent="flex-end"
+                        alignItems="center"
+                        width="100%"
+                      >
+                        <Box mr={3}>
+                          <Balance balance={2573} />
+                        </Box>
+                        <MessagePopperButton messages={messages} />
+                        <PersonalInfo messages={messages} />
+                      </Box>
+                    </Grid>
+                  ) : (
+                    menuItems.map((element, index) => {
+                      if (!element.link) {
+                        return (
+                          <Button
+                            color="secondary"
+                            size="large"
+                            onClick={element.onClick}
+                            classes={{ text: classes.menuButtonText }}
+                            key={index}
+                          >
+                            {element.name}
+                          </Button>
+                        );
+                      }
+                      return <Box key={index}></Box>;
+                    })
+                  )}
                 </Grid>
               </Hidden>
               <Hidden lgUp>

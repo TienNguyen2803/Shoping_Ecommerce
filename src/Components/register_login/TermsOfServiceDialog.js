@@ -31,7 +31,7 @@ function TermsOfServiceDialog(props) {
   const { classes, onClose, theme } = props;
   return (
     <Dialog open scroll="paper" onClose={onClose} hideBackdrop>
-      <DialogTitle>Terms and Conditions</DialogTitle>
+      <DialogTitle>Điều khoản dịch vụ</DialogTitle>
       <DialogContent>
         <Typography variant="h6" color="primary" paragraph>
           Introduction
@@ -184,7 +184,7 @@ function TermsOfServiceDialog(props) {
           color={theme.palette.common.black}
         >
           <ArrowBackIcon className={classes.backIcon} />
-          Back
+          Quay lại
         </ColoredButton>
       </DialogActions>
     </Dialog>

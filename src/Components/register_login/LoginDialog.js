@@ -1,20 +1,27 @@
-import React, { useState, useCallback, useRef, Fragment } from "react";
+import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   TextField,
   Button,
-  Checkbox,
   Typography,
-  FormControlLabel,
   withStyles,
+  Box,
 } from "@material-ui/core";
+import { useForm } from "react-hook-form";
 import FormDialog from "../../shared/components/FormDialog";
-import HighlightedInformation from "../../shared/components/HighlightedInformation";
+import RegisterDialog from "./RegisterDialog";
 import ButtonCircularProgress from "../../shared/components/ButtonCircularProgress";
 import VisibilityPasswordTextField from "../../shared/components/VisibilityPasswordTextField";
-
+import HighlightedInformation from "../../shared/components/HighlightedInformation";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { isEmpty } from "lodash";
+const SignupSchema = yup.object().shape({
+  email: yup.string().required(),
+  password: yup.string().required(),
+});
 const styles = (theme) => ({
   forgotPassword: {
     marginTop: theme.spacing(2),
@@ -27,6 +34,9 @@ const styles = (theme) => ({
       color: theme.palette.primary.dark,
     },
   },
+  textErr: {
+    textAlign: "center",
+  },
   disabledText: {
     cursor: "auto",
     color: theme.palette.text.disabled,
@@ -34,174 +44,164 @@ const styles = (theme) => ({
   formControlLabel: {
     marginRight: 0,
   },
+  link: {
+    transition: theme.transitions.create(["background-color"], {
+      duration: theme.transitions.duration.complex,
+      easing: theme.transitions.easing.easeInOut,
+    }),
+    cursor: "pointer",
+    color: theme.palette.primary.main,
+    "&:enabled:hover": {
+      color: theme.palette.primary.dark,
+    },
+    "&:enabled:focus": {
+      color: theme.palette.primary.dark,
+    },
+  },
+  actions: {
+    marginTop: theme.spacing(2),
+  },
 });
 
 function LoginDialog(props) {
-  const {
-    setStatus,
-    history,
-    classes,
-    onClose,
-    openChangePasswordDialog,
-    status,
-  } = props;
+  let history = useHistory();
+  const { onClose, openChangePasswordDialog, classes, status, setStatus } =
+    props;
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const loginEmail = useRef();
-  const loginPassword = useRef();
 
-  const login = useCallback(() => {
-    setIsLoading(true);
-    setStatus(null);
-    if (loginEmail.current.value !== "test@web.com") {
-      setTimeout(() => {
-        setStatus("invalidEmail");
-        setIsLoading(false);
-      }, 1500);
-    } else if (loginPassword.current.value !== "HaRzwc") {
-      setTimeout(() => {
-        setStatus("invalidPassword");
-        setIsLoading(false);
-      }, 1500);
-    } else {
-      setTimeout(() => {
-        history.push("/c/dashboard");
-      }, 150);
-    }
-  }, [setIsLoading, loginEmail, loginPassword, history, setStatus]);
+  const { register, handleSubmit, errors } = useForm({
+    resolver: yupResolver(SignupSchema),
+  });
+
+  //handle submit
+  const login = useCallback(
+    (data) => {
+      setIsLoading(true);
+      setStatus(null);
+      if (data.email !== "test@gmail.com") {
+        setTimeout(() => {
+          setStatus("invalidEmail");
+          setIsLoading(false);
+        }, 1500);
+      } else if (data.password !== "Test123123") {
+        setTimeout(() => {
+          setStatus("invalidPassword");
+          setIsLoading(false);
+        }, 1500);
+      } else {
+        setTimeout(() => {
+          localStorage.setItem("user", JSON.stringify(data));
+          onClose();
+          history.goBack();
+        }, 150);
+      }
+    },
+    [setIsLoading, setStatus]
+  );
+
+  //handle submit
+  const onSubmit = (data) => {
+    login(data);
+  };
+  const { email, password } = errors;
 
   return (
-    <Fragment>
-      <FormDialog
-        open
-        onClose={onClose}
-        loading={isLoading}
-        onFormSubmit={(e) => {
-          e.preventDefault();
-          login();
-        }}
-        hideBackdrop
-        headline="Login"
-        content={
-          <Fragment>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              error={status === "invalidEmail"}
-              required
-              fullWidth
-              label="Email Address"
-              inputRef={loginEmail}
-              autoFocus
-              autoComplete="off"
-              type="email"
-              onChange={() => {
-                if (status === "invalidEmail") {
-                  setStatus(null);
-                }
-              }}
-              helperText={
-                status === "invalidEmail" &&
-                "This email address isn't associated with an account."
-              }
-              FormHelperTextProps={{ error: true }}
-            />
-            <VisibilityPasswordTextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              error={status === "invalidPassword"}
-              label="Password"
-              inputRef={loginPassword}
-              autoComplete="off"
-              onChange={() => {
-                if (status === "invalidPassword") {
-                  setStatus(null);
-                }
-              }}
-              helperText={
-                status === "invalidPassword" ? (
-                  <span>
-                    Incorrect password. Try again, or click on{" "}
-                    <b>&quot;Forgot Password?&quot;</b> to reset it.
-                  </span>
-                ) : (
-                  ""
-                )
-              }
-              FormHelperTextProps={{ error: true }}
-              onVisibilityChange={setIsPasswordVisible}
-              isVisible={isPasswordVisible}
-            />
-            <FormControlLabel
-              className={classes.formControlLabel}
-              control={<Checkbox color="primary" />}
-              label={<Typography variant="body1">Remember me</Typography>}
-            />
-            {status === "verificationEmailSend" ? (
-              <HighlightedInformation>
-                We have send instructions on how to reset your password to your
-                email address
-              </HighlightedInformation>
-            ) : (
-              <HighlightedInformation>
-                Email is: <b>test@web.com</b>
-                <br />
-                Password is: <b>HaRzwc</b>
-              </HighlightedInformation>
-            )}
-          </Fragment>
-        }
-        actions={
-          <Fragment>
+    <FormDialog
+      loading={isLoading}
+      onClose={onClose}
+      open
+      headline="Đăng nhập"
+      hideBackdrop
+      hasCloseIcon
+      content={
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            name="email"
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            label="Email"
+            autoFocus
+            autoComplete="off"
+            // type="email"
+            error={Boolean(email)}
+            helperText={isEmpty(email) ? "" : email.message}
+            inputRef={register}
+          />
+
+          <VisibilityPasswordTextField
+            variant="outlined"
+            margin="normal"
+            name="password"
+            required
+            fullWidth
+            label="Mật khẩu"
+            isVisible={isPasswordVisible}
+            inputRef={register}
+            onVisibilityChange={setIsPasswordVisible}
+            helperText={isEmpty(password) ? "" : password.message}
+          />
+
+          <Box width="100%" className={classes.actions}>
             <Button
               type="submit"
               fullWidth
               variant="contained"
+              size="large"
               color="secondary"
               disabled={isLoading}
-              size="large"
             >
-              Login
+              Đăng nhập
               {isLoading && <ButtonCircularProgress />}
             </Button>
-            <Typography
-              align="center"
-              className={classNames(
-                classes.forgotPassword,
-                isLoading ? classes.disabledText : null
-              )}
-              color="primary"
-              onClick={isLoading ? null : openChangePasswordDialog}
-              tabIndex={0}
-              role="button"
-              onKeyDown={(event) => {
-                // For screenreaders listen to space and enter events
-                if (
-                  (!isLoading && event.keyCode === 13) ||
-                  event.keyCode === 32
-                ) {
-                  openChangePasswordDialog();
-                }
-              }}
-            >
-              Forgot Password?
-            </Typography>
-          </Fragment>
-        }
-      />
-    </Fragment>
+          </Box>
+          <Typography
+            align="center"
+            className={classNames(
+              classes.forgotPassword,
+              isLoading ? classes.disabledText : null
+            )}
+            color="primary"
+            onClick={isLoading ? null : openChangePasswordDialog}
+            tabIndex={0}
+            role="button"
+            onKeyDown={(event) => {
+              // For screenreaders listen to space and enter events
+              if (
+                (!isLoading && event.keyCode === 13) ||
+                event.keyCode === 32
+              ) {
+                openChangePasswordDialog();
+              }
+            }}
+          >
+            Quên mật khẩu
+          </Typography>
+          {status === "verificationEmailSend" ? (
+            <HighlightedInformation>
+              Chúng tôi đã gửi hướng dẫn về cách đặt lại mật khẩu của bạn qua
+              địa chỉ email
+            </HighlightedInformation>
+          ) : status === "invalidEmail" || status === "invalidPassword" ? (
+            <HighlightedInformation className={classes.textErr}>
+              Tài khoản mật khẩu không đúng.
+            </HighlightedInformation>
+          ) : (
+            <Box></Box>
+          )}
+        </form>
+      }
+    />
   );
 }
 
-LoginDialog.propTypes = {
-  classes: PropTypes.object.isRequired,
+RegisterDialog.propTypes = {
+  theme: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
-  setStatus: PropTypes.func.isRequired,
-  openChangePasswordDialog: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   status: PropTypes.string,
+  setStatus: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
-export default withRouter(withStyles(styles)(LoginDialog));
+export default withStyles(styles, { withTheme: true })(LoginDialog);

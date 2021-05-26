@@ -20,7 +20,12 @@ const styles = (theme) => ({
     overflowX: "hidden",
   },
 });
-
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 function Main(props) {
   const { classes } = props;
   const [selectedTab, setSelectedTab] = useState(null);
@@ -28,7 +33,7 @@ function Main(props) {
   const [blogPosts, setBlogPosts] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(null);
   const [isCookieRulesDialogOpen, setIsCookieRulesDialogOpen] = useState(false);
-
+  const [messages, setMessages] = useState([]);
   const selectHome = useCallback(() => {
     smoothScrollTop();
     document.title = "Sky Garden";
@@ -95,9 +100,30 @@ function Main(props) {
   const handleCookieRulesDialogClose = useCallback(() => {
     setIsCookieRulesDialogOpen(false);
   }, [setIsCookieRulesDialogOpen]);
-
+  const fetchRandomMessages = useCallback(() => {
+    shuffle(dummyBlogPosts);
+    const messages = [];
+    const iterations = dummyBlogPosts.length;
+    const oneDaySeconds = 60 * 60 * 24;
+    let curUnix = Math.round(
+      new Date().getTime() / 1000 - iterations * oneDaySeconds
+    );
+    for (let i = 0; i < iterations; i += 1) {
+      const person = dummyBlogPosts[i];
+      const message = {
+        id: i,
+        src: person.src,
+        date: curUnix,
+        text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr sed.",
+      };
+      curUnix += oneDaySeconds;
+      messages.push(message);
+    }
+    messages.reverse();
+    setMessages(messages);
+  }, [setMessages]);
   useEffect(fetchBlogPosts, [fetchBlogPosts]);
-
+  useEffect(fetchRandomMessages, [fetchRandomMessages]);
   return (
     <div className={classes.wrapper}>
       {!isCookieRulesDialogOpen && (
@@ -118,6 +144,7 @@ function Main(props) {
         onClose={handleCookieRulesDialogClose}
       />
       <NavBar
+        messages={messages}
         selectedTab={selectedTab}
         selectTab={setSelectedTab}
         openLoginDialog={openLoginDialog}
