@@ -1,19 +1,27 @@
-import React, { useState, useCallback, useRef, Fragment } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import {
-  FormHelperText,
   TextField,
   Button,
   Checkbox,
   Typography,
   FormControlLabel,
   withStyles,
+  Box,
 } from "@material-ui/core";
+import { useForm } from "react-hook-form";
 import FormDialog from "../../shared/components/FormDialog";
-import HighlightedInformation from "../../shared/components/HighlightedInformation";
 import ButtonCircularProgress from "../../shared/components/ButtonCircularProgress";
 import VisibilityPasswordTextField from "../../shared/components/VisibilityPasswordTextField";
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { isEmpty } from "lodash";
+const SignupSchema = yup.object().shape({
+  email: yup.string().required(),
+  userName: yup.string().required(),
+  password: yup.string().required(),
+  repeatPassword: yup.string().required(),
+});
 const styles = (theme) => ({
   link: {
     transition: theme.transitions.create(["background-color"], {
@@ -29,150 +37,98 @@ const styles = (theme) => ({
       color: theme.palette.primary.dark,
     },
   },
+  actions: {
+    marginTop: theme.spacing(2),
+  },
 });
 
 function RegisterDialog(props) {
-  const { setStatus, theme, onClose, openTermsDialog, status, classes } = props;
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasTermsOfServiceError, setHasTermsOfServiceError] = useState(false);
+  const { onClose, openTermsDialog, classes } = props;
+  const [isLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const registerTermsCheckbox = useRef();
-  const registerPassword = useRef();
-  const registerPasswordRepeat = useRef();
+  const [checked, setChecked] = useState(false);
 
-  const register = useCallback(() => {
-    if (!registerTermsCheckbox.current.checked) {
-      setHasTermsOfServiceError(true);
-      return;
-    }
-    if (
-      registerPassword.current.value !== registerPasswordRepeat.current.value
-    ) {
-      setStatus("passwordsDontMatch");
-      return;
-    }
-    setStatus(null);
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-  }, [
-    setIsLoading,
-    setStatus,
-    setHasTermsOfServiceError,
-    registerPassword,
-    registerPasswordRepeat,
-    registerTermsCheckbox,
-  ]);
-
+  const { register, handleSubmit, errors } = useForm({
+    resolver: yupResolver(SignupSchema),
+  });
+  const onSubmit = (data) => console.log(data);
+  const { email, userName, password, repeatPassword } = errors;
   return (
     <FormDialog
       loading={isLoading}
       onClose={onClose}
       open
-      headline="Register"
-      onFormSubmit={(e) => {
-        e.preventDefault();
-        register();
-      }}
+      headline="Đăng ký"
       hideBackdrop
       hasCloseIcon
       content={
-        <Fragment>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
+            name="email"
             variant="outlined"
             margin="normal"
-            required
             fullWidth
-            error={status === "invalidEmail"}
-            label="Email Address"
+            label="Email"
             autoFocus
             autoComplete="off"
-            type="email"
-            onChange={() => {
-              if (status === "invalidEmail") {
-                setStatus(null);
-              }
-            }}
-            FormHelperTextProps={{ error: true }}
+            // type="email"
+            error={Boolean(email)}
+            helperText={isEmpty(email) ? "" : email.message}
+            inputRef={register}
           />
+
+          <TextField
+            name="userName"
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            label="Họ và tên"
+            autoFocus
+            autoComplete="off"
+            inputRef={register}
+            helperText={isEmpty(userName) ? "" : userName.message}
+          />
+
+          <VisibilityPasswordTextField
+            variant="outlined"
+            margin="normal"
+            name="password"
+            required
+            fullWidth
+            label="Mật khẩu"
+            isVisible={isPasswordVisible}
+            inputRef={register}
+            onVisibilityChange={setIsPasswordVisible}
+            helperText={isEmpty(password) ? "" : password.message}
+          />
+
           <VisibilityPasswordTextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            error={
-              status === "passwordTooShort" || status === "passwordsDontMatch"
-            }
-            label="Password"
-            inputRef={registerPassword}
-            autoComplete="off"
-            onChange={() => {
-              if (
-                status === "passwordTooShort" ||
-                status === "passwordsDontMatch"
-              ) {
-                setStatus(null);
-              }
-            }}
-            helperText={(() => {
-              if (status === "passwordTooShort") {
-                return "Create a password at least 6 characters long.";
-              }
-              if (status === "passwordsDontMatch") {
-                return "Your passwords dont match.";
-              }
-              return null;
-            })()}
-            FormHelperTextProps={{ error: true }}
+            name="repeatPassword"
+            label="Nhập lại mật khẩu"
             isVisible={isPasswordVisible}
             onVisibilityChange={setIsPasswordVisible}
+            inputRef={register}
+            helperText={isEmpty(repeatPassword) ? "" : repeatPassword.message}
           />
-          <VisibilityPasswordTextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            error={
-              status === "passwordTooShort" || status === "passwordsDontMatch"
-            }
-            label="Repeat Password"
-            inputRef={registerPasswordRepeat}
-            autoComplete="off"
-            onChange={() => {
-              if (
-                status === "passwordTooShort" ||
-                status === "passwordsDontMatch"
-              ) {
-                setStatus(null);
-              }
-            }}
-            helperText={(() => {
-              if (status === "passwordTooShort") {
-                return "Create a password at least 6 characters long.";
-              }
-              if (status === "passwordsDontMatch") {
-                return "Your passwords dont match.";
-              }
-            })()}
-            FormHelperTextProps={{ error: true }}
-            isVisible={isPasswordVisible}
-            onVisibilityChange={setIsPasswordVisible}
-          />
+
           <FormControlLabel
             style={{ marginRight: 0 }}
             control={
               <Checkbox
                 color="primary"
-                inputRef={registerTermsCheckbox}
+                value={checked}
                 onChange={() => {
-                  setHasTermsOfServiceError(false);
+                  setChecked(!checked);
                 }}
               />
             }
             label={
               <Typography variant="body1">
-                I agree to the
+                Tôi đồng ý{" "}
                 <span
                   className={classes.link}
                   onClick={isLoading ? null : openTermsDialog}
@@ -188,48 +144,25 @@ function RegisterDialog(props) {
                     }
                   }}
                 >
-                  {" "}
-                  terms of service
+                  với các điều khoản và dịch vụ
                 </span>
               </Typography>
             }
           />
-          {hasTermsOfServiceError && (
-            <FormHelperText
-              error
-              style={{
-                display: "block",
-                marginTop: theme.spacing(-1),
-              }}
+          <Box width="100%" className={classes.actions}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              size="large"
+              color="secondary"
+              disabled={!checked}
             >
-              In order to create an account, you have to accept our terms of
-              service.
-            </FormHelperText>
-          )}
-          {status === "accountCreated" ? (
-            <HighlightedInformation>
-              We have created your account. Please click on the link in the
-              email we have sent to you before logging in.
-            </HighlightedInformation>
-          ) : (
-            <HighlightedInformation>
-              Registration is disabled until we go live.
-            </HighlightedInformation>
-          )}
-        </Fragment>
-      }
-      actions={
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          size="large"
-          color="secondary"
-          disabled={isLoading}
-        >
-          Register
-          {isLoading && <ButtonCircularProgress />}
-        </Button>
+              Đăng ký
+              {checked && <ButtonCircularProgress />}
+            </Button>
+          </Box>
+        </form>
       }
     />
   );

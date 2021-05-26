@@ -22,6 +22,11 @@ const styles = (theme) => ({
     textDecoration: "none !important ",
     padding: "0px 10px",
   },
+
+  box_username: {
+    border: "1px solid #000",
+    borderRadius: 5,
+  },
 });
 
 export default styles;

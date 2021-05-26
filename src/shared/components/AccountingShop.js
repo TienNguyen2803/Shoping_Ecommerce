@@ -146,7 +146,7 @@ function AccountingShop(props) {
             sm={6}
             lg={4}
             data-aos="zoom-in-up"
-            data-aos-delay={isWidthUp("md", width) ? "500" : "200"}
+            data-aos-delay={isWidthUp("md", width) ? "300" : "200"}
           >
             <PriceCard
               title="Người chơi"
