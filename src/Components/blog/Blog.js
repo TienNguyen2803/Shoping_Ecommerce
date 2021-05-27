@@ -1,9 +1,21 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import { Grid, Box, isWidthUp, withWidth, withStyles } from "@material-ui/core";
-import BlogCard from "./BlogCard";
-
+import {
+  Grid,
+  isWidthUp,
+  withWidth,
+  withStyles,
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Divider,
+  Typography,
+} from "@material-ui/core";
+import moment from "moment";
 const styles = (theme) => ({
   blogContentWrapper: {
     marginLeft: theme.spacing(1),
@@ -22,45 +34,17 @@ const styles = (theme) => ({
     textDecoration: "none !important",
   },
 });
-
-function getVerticalBlogPosts(width, blogPosts) {
-  const gridRows = [[], [], []];
-  let rows;
-  let xs;
-  if (isWidthUp("md", width)) {
-    rows = 3;
-    xs = 4;
-  } else if (isWidthUp("sm", width)) {
-    rows = 2;
-    xs = 6;
-  } else {
-    rows = 1;
-    xs = 12;
-  }
-  blogPosts.forEach((blogPost, index) => {
-    gridRows[index % rows].push(
-      <Grid key={blogPost.id} item xs={12}>
-        <Box mb={3}>
-          <BlogCard
-            src={blogPost.src}
-            title={blogPost.title}
-            snippet={blogPost.snippet}
-            date={blogPost.date}
-            url={blogPost.url}
-          />
-        </Box>
-      </Grid>
-    );
-  });
-  return gridRows.map((element, index) => (
-    <Grid key={index} item xs={xs}>
-      {element}
-    </Grid>
-  ));
-}
+const user = {
+  avatar: "/static/images/avatars/avatar_6.png",
+  city: "Los Angeles",
+  country: "USA",
+  jobTitle: "Senior Developer",
+  name: "Katarina Smith",
+  timezone: "GTM-7",
+};
 
 function Blog(props) {
-  const { classes, width, blogPosts, selectBlog } = props;
+  const { classes, selectBlog } = props;
 
   useEffect(() => {
     selectBlog();
@@ -73,9 +57,40 @@ function Blog(props) {
       className={classNames(classes.wrapper, "lg-p-top")}
     >
       <div className={classes.blogContentWrapper}>
-        <Grid container spacing={3}>
-          {getVerticalBlogPosts(width, blogPosts)}
-        </Grid>
+        <Card {...props}>
+          <CardContent>
+            <Box
+              sx={{
+                alignItems: "center",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Avatar
+                src={user.avatar}
+                sx={{
+                  height: 100,
+                  width: 100,
+                }}
+              />
+              <Typography color="textPrimary" gutterBottom variant="h3">
+                {user.name}
+              </Typography>
+              <Typography color="textSecondary" variant="body1">
+                {`${user.city} ${user.country}`}
+              </Typography>
+              <Typography color="textSecondary" variant="body1">
+                {`${moment().format("hh:mm A")} ${user.timezone}`}
+              </Typography>
+            </Box>
+          </CardContent>
+          <Divider />
+          <CardActions>
+            <Button color="primary" fullWidth variant="text">
+              Upload picture
+            </Button>
+          </CardActions>
+        </Card>
       </div>
     </Box>
   );
