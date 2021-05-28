@@ -1,18 +1,11 @@
 import classNames from "classnames";
 import React, { useEffect } from "react";
-import moment from "moment";
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  withStyles,
-  CardActions,
-  CardContent,
-  Divider,
-  Typography,
-} from "@material-ui/core";
+import { withStyles, Grid, Avatar } from "@material-ui/core";
+import Avatars from "./Avatar";
+import SideBar from "./SideBar";
+
 import { Fragment } from "react";
+import AccountProfileDetails from "./AccountProfileDetails";
 const user = {
   avatar: "/static/images/avatars/avatar_6.png",
   city: "Los Angeles",
@@ -40,38 +33,25 @@ const styles = (theme) => ({
   },
 });
 function AccountProfile(props) {
-  const { classes, width, blogPosts } = props;
+  const { classes } = props;
 
   return (
     <Fragment className={classNames(classes.wrapper, "lg-p-top")}>
-      <Card {...props}>
-        <CardContent>
-          <Box
-            sx={{
-              alignItems: "center",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <Avatar
-              src={user.avatar}
-              sx={{
-                height: 100,
-                width: 100,
-              }}
-            />
-            <Typography color="textPrimary" gutterBottom variant="h3">
-              {user.name}
-            </Typography>
-            <Typography color="textSecondary" variant="body1">
-              {`${user.city} ${user.country}`}
-            </Typography>
-            <Typography color="textSecondary" variant="body1">
-              {`${moment().format("hh:mm A")} ${user.timezone}`}
-            </Typography>
-          </Box>
-        </CardContent>
-      </Card>
+      <div className="container-fluid">
+        <Grid container spacing={3}>
+          <Grid item container xs={3}>
+            <Grid item container xs={12}>
+              <Avatars user={user} />
+            </Grid>
+            <Grid item container xs={12}>
+              <SideBar />
+            </Grid>
+          </Grid>
+          <Grid item container xs={9}>
+            <AccountProfileDetails />
+          </Grid>
+        </Grid>
+      </div>
     </Fragment>
   );
 }

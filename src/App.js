@@ -9,6 +9,7 @@ import GlobalStyles from "./GlobalStyles";
 import Pace from "./shared/components/Pace";
 import ConfigStore from "./Config/Store";
 import { Provider } from "react-redux";
+import Main from "./Components/Main";
 import "core-js/es6/promise";
 import "core-js/es6/set";
 import "core-js/es6/map";
@@ -25,11 +26,7 @@ function App() {
           <GlobalStyles />
           <Pace color={theme.palette.primary.light} />
           <Suspense fallback={<Fragment />}>
-            <Switch>
-              <Route>
-                <LoggedOutComponent />
-              </Route>
-            </Switch>
+            <Main />
           </Suspense>
         </Provider>
       </MuiThemeProvider>

@@ -119,7 +119,7 @@ function PersonalInfo(props) {
                 className={classes.btn}
                 onClick={() => {
                   localStorage.removeItem("user");
-                  history.goBack();
+                  history.push("/");
                 }}
                 startIcon={<ExitToAppIcon />}
               >
@@ -127,6 +127,9 @@ function PersonalInfo(props) {
               </Button>
               <Button
                 className={classes.btn}
+                onClick={() => {
+                  history.push("/profile");
+                }}
                 startIcon={<PermContactCalendarIcon />}
               >
                 Thông tin cá nhân

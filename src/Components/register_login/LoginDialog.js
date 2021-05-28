@@ -93,7 +93,7 @@ function LoginDialog(props) {
         setTimeout(() => {
           localStorage.setItem("user", JSON.stringify(data));
           onClose();
-          history.goBack();
+          history.push("/profile");
         }, 150);
       }
     },

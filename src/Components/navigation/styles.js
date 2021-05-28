@@ -27,6 +27,9 @@ const styles = (theme) => ({
     border: "1px solid #000",
     borderRadius: 5,
   },
+  root: {
+    paddingBottom: 150,
+  },
 });
 
 export default styles;
