@@ -5,6 +5,7 @@ import Home from "./home/Home";
 import Blog from "./blog/Blog";
 import BlogPost from "./blog/BlogPost";
 import useLocationBlocker from "../shared/functions/useLocationBlocker";
+import AccountProfile from "./profile/AccountProfile";
 
 function Routing(props) {
   const { blogPosts, selectBlog, selectHome } = props;
@@ -35,7 +36,7 @@ function Routing(props) {
       <PropsRoute
         exact
         path="/profile"
-        component={Blog}
+        component={AccountProfile}
         selectBlog={selectBlog}
         blogPosts={blogPosts}
       />
