@@ -20,20 +20,7 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import React from "react";
-const states = [
-  {
-    value: "alabama",
-    label: "Alabama",
-  },
-  {
-    value: "new-york",
-    label: "New York",
-  },
-  {
-    value: "san-francisco",
-    label: "San Francisco",
-  },
-];
+
 const useStyles = makeStyles({
   textField: {
     width: "100%",
@@ -41,6 +28,7 @@ const useStyles = makeStyles({
     boxSizing: "border-box",
     borderRadius: 4,
     fontSize: 14,
+    marginTop: 0,
   },
 });
 const AccountProfileDetails = (props) => {
@@ -113,6 +101,7 @@ const AccountProfileDetails = (props) => {
                 name="email"
                 onChange={handleChange}
                 required
+                style={{ paddingTop: 0 }}
                 value={values.email}
                 variant="outlined"
               />

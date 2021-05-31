@@ -7,7 +7,7 @@ const styles = {
   input: { padding: "0px 9px", cursor: "pointer" },
   outlinedInput: {
     minWidth: 120,
-    height: 60,
+    height: 58,
     cursor: "pointer",
     borderRadius: 5,
     border: "1px solid #000",
