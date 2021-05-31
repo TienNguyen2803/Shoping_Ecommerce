@@ -158,6 +158,7 @@ function Main(props) {
         selectHome={selectHome}
         selectBlog={selectBlog}
       />
+
       <Footer />
     </div>
   );

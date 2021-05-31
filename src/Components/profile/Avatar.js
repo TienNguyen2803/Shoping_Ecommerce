@@ -9,7 +9,6 @@ import {
   CardContent,
   Typography,
 } from "@material-ui/core";
-import { Fragment } from "react";
 const user = {
   avatar: "/static/images/avatars/avatar_6.png",
   city: "Los Angeles",
@@ -18,29 +17,12 @@ const user = {
   name: "Katarina Smith",
   timezone: "GTM-7",
 };
-const styles = (theme) => ({
-  blogContentWrapper: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(4),
-      marginRight: theme.spacing(4),
-    },
-    maxWidth: 1280,
-    width: "100%",
-  },
-  wrapper: {
-    minHeight: "60vh",
-  },
-  noDecoration: {
-    textDecoration: "none !important",
-  },
-});
+const styles = (theme) => ({});
 function Avatars(props) {
   const { classes } = props;
 
   return (
-    <Fragment className={classNames(classes.wrapper, "lg-p-top")}>
+    <div className={classNames(classes.wrapper)}>
       <Card {...props}>
         <CardContent>
           <Box
@@ -69,7 +51,7 @@ function Avatars(props) {
           </Box>
         </CardContent>
       </Card>
-    </Fragment>
+    </div>
   );
 }
 

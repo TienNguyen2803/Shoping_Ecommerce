@@ -14,7 +14,6 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import MessagePopperButton from "./MessagePopperButton";
-
 import HomeIcon from "@material-ui/icons/Home";
 import HowToRegIcon from "@material-ui/icons/HowToReg";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
@@ -73,7 +72,7 @@ function NavBar(props) {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Grid container>
-            <Grid container direction="row" item xs={1}>
+            <Grid container alignItems="center" direction="row" item xs={1}>
               <Typography
                 variant="h4"
                 className={classes.brandText}

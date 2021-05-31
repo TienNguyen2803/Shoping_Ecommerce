@@ -1,10 +1,8 @@
-import classNames from "classnames";
-import React, { useEffect } from "react";
-import { withStyles, Grid, Avatar } from "@material-ui/core";
+import React from "react";
+import { withStyles, Grid } from "@material-ui/core";
 import Avatars from "./Avatar";
 import SideBar from "./SideBar";
-
-import { Fragment } from "react";
+import classNames from "classnames";
 import AccountProfileDetails from "./AccountProfileDetails";
 const user = {
   avatar: "/static/images/avatars/avatar_6.png",
@@ -15,28 +13,15 @@ const user = {
   timezone: "GTM-7",
 };
 const styles = (theme) => ({
-  blogContentWrapper: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(4),
-      marginRight: theme.spacing(4),
-    },
-    maxWidth: 1280,
-    width: "100%",
-  },
   wrapper: {
     minHeight: "60vh",
-  },
-  noDecoration: {
-    textDecoration: "none !important",
   },
 });
 function AccountProfile(props) {
   const { classes } = props;
 
   return (
-    <Fragment className={classNames(classes.wrapper, "lg-p-top")}>
+    <div className={classNames(classes.wrapper)}>
       <div className="container-fluid">
         <Grid container spacing={3}>
           <Grid item container xs={3}>
@@ -52,7 +37,7 @@ function AccountProfile(props) {
           </Grid>
         </Grid>
       </div>
-    </Fragment>
+    </div>
   );
 }
 

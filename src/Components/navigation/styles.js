@@ -19,6 +19,7 @@ const styles = (theme) => ({
     fontWeight: 400,
   },
   noDecoration: {
+    alignSelf: "center",
     textDecoration: "none !important ",
     padding: "0px 10px",
   },
